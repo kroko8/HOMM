@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./angular-flask-project/backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./angular-flask-project/backend:/app
+    environment:
+      - FLASK_ENV=development
+
+  frontend:
+    build:
+      context: ./angular-flask-project/frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./angular-flask-project/frontend:/app
