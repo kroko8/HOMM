@@ -1,0 +1,83 @@
+{
+  "requests": [
+    {
+      "description": "Créer une nouvelle ville",
+      "method": "POST",
+      "url": "http://localhost:5000/api/cities",
+      "body": {
+        "name": "Steadwick",
+        "position": { "x": 12, "y": 18 },
+        "resources": { "gold": 500, "wood": 100, "stone": 50 },
+        "buildings": ["townhall", "barracks", "archery_range"],
+        "population": 200
+      }
+    },
+    {
+      "description": "Lister toutes les villes",
+      "method": "GET",
+      "url": "http://localhost:5000/api/cities"
+    },
+    {
+      "description": "Récupérer une ville par ID",
+      "method": "GET",
+      "url": "http://localhost:5000/api/cities/1"
+    },
+    {
+      "description": "Créer une nouvelle partie",
+      "method": "POST",
+      "url": "http://localhost:5000/api/games",
+      "body": {
+        "name": "Partie 1",
+        "scenario_id": 1,
+        "state": {
+          "turn": 1,
+          "player": {
+            "resources": { "gold": 500, "wood": 100, "stone": 50 },
+            "heroes": [],
+            "cities": []
+          },
+          "ai": {
+            "resources": { "gold": 300, "wood": 50, "stone": 20 },
+            "heroes": [],
+            "cities": []
+          }
+        }
+      }
+    },
+    {
+      "description": "Lister toutes les parties sauvegardées",
+      "method": "GET",
+      "url": "http://localhost:5000/api/games"
+    },
+    {
+      "description": "Sauvegarder une partie existante",
+      "method": "POST",
+      "url": "http://localhost:5000/api/games/1/save",
+      "body": {
+        "state": {
+          "turn": 2,
+          "player": {
+            "resources": { "gold": 600, "wood": 120, "stone": 70 },
+            "heroes": [],
+            "cities": []
+          },
+          "ai": {
+            "resources": { "gold": 400, "wood": 70, "stone": 30 },
+            "heroes": [],
+            "cities": []
+          }
+        }
+      }
+    },
+    {
+      "description": "Charger une partie sauvegardée",
+      "method": "GET",
+      "url": "http://localhost:5000/api/games/1"
+    },
+    {
+      "description": "Lister tous les scénarios disponibles",
+      "method": "GET",
+      "url": "http://localhost:5000/api/scenarios"
+    }
+  ]
+}
