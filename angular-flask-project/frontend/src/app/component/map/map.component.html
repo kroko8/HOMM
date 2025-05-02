@@ -1,0 +1,128 @@
+<div class="game-container">
+  <div class="map-container" [class.ai-turn]="isAITurn">
+    <div class="map-grid">
+      <div *ngFor="let row of mapData; let i = index" class="map-row">
+        <div *ngFor="let tile of row; let j = index" 
+             class="map-tile" 
+             [class.fog]="!tile.explored"
+             [class.visible]="tile.visible"
+             [class.selected]="selectedTile === tile"
+             [ngClass]="tile.type"
+             (click)="onTileClick(tile)">
+          
+          <div *ngIf="tile.object && (tile.visible || tile.explored)" 
+               class="tile-object"
+               [ngClass]="tile.object.type">
+            
+            <!-- Héros -->
+            <div *ngIf="tile.object.type === 'hero'" 
+                 [ngClass]="{'player-hero': tile.object.owner === 'player', 'ai-hero': tile.object.owner === 'ai'}"
+                 class="hero-icon">
+              <span>H</span>
+            </div>
+            
+            <!-- Château -->
+            <div *ngIf="tile.object.type === 'castle'" 
+                 [ngClass]="{'player-castle': tile.object.owner === 'player', 'ai-castle': tile.object.owner === 'ai'}"
+                 class="castle-icon">
+              <span>C</span>
+            </div>
+            
+            <!-- Mine d'or -->
+            <div *ngIf="tile.object.type === 'goldmine'" class="gold-icon">
+              <span>G</span>
+            </div>
+            
+            <!-- Scierie -->
+            <div *ngIf="tile.object.type === 'sawmill'" class="wood-icon">
+              <span>W</span>
+            </div>
+            
+            <!-- Artefact -->
+            <div *ngIf="tile.object.type === 'artifact'" class="artifact-icon">
+              <span>A</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="side-panel">
+    <div class="game-info">
+      <h3>Heroes & Hostias</h3>
+      
+      <div class="resources">
+        <h4>Ressources</h4>
+        <div class="resource-list">
+          <div class="resource-item">Or: 5420</div>
+          <div class="resource-item">Bois: 28</div>
+          <div class="resource-item">Pierre: 15</div>
+          <div class="resource-item">Cristaux: 3</div>
+        </div>
+      </div>
+      
+      <div class="turn-info">
+        <h4>Tour: 5</h4>
+        <div *ngIf="isAITurn" class="ai-turn-indicator">Tour de l'IA en cours...</div>
+        <div *ngIf="!isAITurn">C'est votre tour</div>
+      </div>
+    </div>
+    
+    <div class="tile-info" *ngIf="selectedTile">
+      <h4>Information sur la tuile</h4>
+      <p>Position: ({{selectedTile.x}}, {{selectedTile.y}})</p>
+      <p>Terrain: {{selectedTile.type}}</p>
+      
+      <div *ngIf="selectedTile.object">
+        <p>Objet: {{selectedTile.object.type}}</p>
+        <p *ngIf="selectedTile.object.owner">Propriétaire: {{selectedTile.object.owner}}</p>
+        
+        <!-- Actions spécifiques selon le type d'objet -->
+        <div *ngIf="selectedTile.object.type === 'castle'">
+          <button class="btn btn-sm btn-info">Entrer dans le château</button>
+        </div>
+        
+        <div *ngIf="selectedTile.object.type === 'hero' && selectedTile.object.owner === 'player'">
+          <button class="btn btn-sm btn-info">Voir les détails du héros</button>
+        </div>
+        
+        <div *ngIf="(selectedTile.object.type === 'goldmine' || selectedTile.object.type === 'sawmill') && !selectedTile.object.owner">
+          <button class="btn btn-sm btn-success">Capturer</button>
+        </div>
+        
+        <div *ngIf="selectedTile.object.type === 'artifact'">
+          <button class="btn btn-sm btn-warning">Ramasser l'artefact</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions-panel">
+      <button class="btn btn-primary action-btn" (click)="endTurn()" [disabled]="isAITurn">Fin du tour</button>
+      <button class="btn btn-secondary action-btn" (click)="openCheatConsole()">Cheat</button>
+    </div>
+  </div>
+</div>
+
+<!-- Contrôles pour le tour de l'IA -->
+<div *ngIf="isAITurn" class="ai-controls">
+  <div class="ai-controls-inner">
+    <h4>Tour de l'IA</h4>
+    <div class="ai-actions">
+      <div class="progress">
+        <div class="progress-bar bg-danger" role="progressbar" [style.width]="'75%'"></div>
+      </div>
+      <div class="ai-action-current">Action: Déplacement du héros</div>
+    </div>
+    <div class="ai-controls-buttons">
+      <button class="btn btn-sm btn-light">Pause</button>
+      <button class="btn btn-sm btn-light">Accélérer</button>
+      <button class="btn btn-sm btn-light">Passer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mode visualisation écran partagé (option 2) -->
+<div *ngIf="isAITurn" class="split-screen-toggle">
+  <button class="btn btn-outline-light">Activer la vue partagée</button>
+</div>

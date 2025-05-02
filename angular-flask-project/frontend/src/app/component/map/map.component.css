@@ -1,0 +1,230 @@
+.game-container {
+  display: flex;
+  height: calc(100vh - 120px);
+  margin: 20px;
+  background-color: #1a1a2e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.map-container {
+  flex: 1;
+  overflow: auto;
+  border: 2px solid #444;
+  background: #000;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
+.map-grid {
+  display: inline-block;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+.map-row {
+  display: flex;
+  height: 40px;
+}
+
+.map-tile {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.map-tile.fog {
+  background-color: #000;
+}
+
+.map-tile.visible:hover {
+  border-color: #fff;
+  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.map-tile.selected {
+  border: 2px solid #ff0;
+  box-shadow: 0px 0px 8px rgba(255, 255, 0, 0.8);
+  z-index: 20;
+}
+
+/* Terrain types */
+.grass { background-color: #2d5a27; }
+.forest { background-color: #1a3a18; }
+.mountain { background-color: #4a4a4a; }
+.water { background-color: #0077be; }
+
+.tile-object {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.hero-icon, .castle-icon, .resource-icon, .artifact-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.hero-icon {
+  background-color: #dc3545;
+}
+
+.player-hero {
+  background-color: #007bff;
+}
+
+.ai-hero {
+  background-color: #dc3545;
+}
+
+.castle-icon {
+  background-color: #6f42c1;
+}
+
+.player-castle {
+  background-color: #0062cc;
+}
+
+.ai-castle {
+  background-color: #a71d2a;
+}
+
+.gold-icon {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.wood-icon {
+  background-color: #28a745;
+}
+
+.artifact-icon {
+  background-color: #17a2b8;
+}
+
+.side-panel {
+  width: 300px;
+  padding: 15px;
+  background: #16213e;
+  color: #fff;
+  border-left: 2px solid #444;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-info {
+  margin-bottom: 20px;
+}
+
+.resources {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.resource-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.resource-item {
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.turn-info {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.ai-turn-indicator {
+  color: #ff6b6b;
+  animation: pulse 1.5s infinite;
+}
+
+.tile-info {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+.actions-panel {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding: 10px 0;
+}
+
+.action-btn {
+  margin: 5px;
+}
+
+/* Animation pour l'indicateur de tour AI */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* AI turn visualization */
+.map-container.ai-turn {
+  border-color: #f00;
+}
+
+@keyframes aiTurnIndicator {
+  0% { border-color: #f00; }
+  50% { border-color: #700; }
+  100% { border-color: #f00; }
+}
+
+.ai-turn {
+  animation: aiTurnIndicator 2s infinite;
+}
+
+/* Animation pour l'apparition des tuiles */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.map-tile {
+  animation: fadeIn 0.3s;
+}
+
+/* Media queries pour responsive design */
+@media (max-width: 992px) {
+  .game-container {
+    flex-direction: column;
+  }
+
+  .side-panel {
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+  }
+}
